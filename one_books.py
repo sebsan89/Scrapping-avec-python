@@ -4,6 +4,7 @@ This code is used to retrieve the data of a book on Booktoscrapp.com
 
 import requests
 from bs4 import BeautifulSoup
+from os import path
 
 
 def scrapp_only_book(response):
@@ -55,24 +56,29 @@ def convert_to_csv(dico):
         [string]: [data converted into a readable format in CSV]
     """
     print("Data transformation in CSV format")
-    key = list(dico.keys())
-    key = "; ".join(key)
     value = list(dico.values())
     value = "; ".join(value)
-    converted = str(key + "\n" + value)
-    return converted
-def save_in_csv(data_converted, dico):
+    value = str(value)
+    return value
+def save_in_csv(data_converted, dico, name_file):
     """[Creating the csv file and writing the data]
 
     Args:
         data_converted ([string]): [data converted into a readable format in CSV]
         dico ([dictionnary]): [allows you to easily retrieve the name of the category]
     """
-    file_name = str(dico["title"]) + '.csv'
-    with open(file_name, 'w', encoding="utf-8") as file:
-        file.write(data_converted)
+    file_name = name_file
+    key = list(dico.keys())
+    key = "; ".join(key)
+    if not path.exists(file_name):
+        with open(file_name, 'w', encoding="utf-8") as file:
+            file.write(key + "\n" + data_converted)
+    else:
+        with open(file_name, 'a', encoding="utf-8") as file:
+            file.write(data_converted)
+
     print("Save in " + file_name)
-def main():
+if __name__ == "__main__":
     """launch function
     """
     url = "http://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
@@ -80,5 +86,5 @@ def main():
     response.encoding = 'utf-8'
     dico = scrapp_only_book(response) # data recovery
     csv = convert_to_csv(dico) # Data transformation
-    save_in_csv(csv, dico) # Save data in CSV
-main()
+    name_file = str(dico["title"]) + '.csv'
+    save_in_csv(csv, dico, name_file) # Save data in CSV
