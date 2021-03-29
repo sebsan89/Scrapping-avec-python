@@ -4,7 +4,7 @@ This code is used to retrieve the data of a book on Booktoscrapp.com
 
 import requests
 from bs4 import BeautifulSoup
-from os import path
+import os
 
 
 def scrapp_only_book(response):
@@ -44,6 +44,22 @@ def scrapp_only_book(response):
     dico["review_rating"] = number_rate
     url_image = soup.article.find('div', {'class': 'thumbnail'}).find('img').get('src')
     dico["image_url"] = url_image.replace('../..', 'http://books.toscrape.com')
+
+    # added images with UPC as name in separate folders by category
+    img_data = requests.get(dico["image_url"]).content
+    if not os.path.exists(dico["category"]):
+        os.makedirs(dico["category"])
+        os.chdir(dico["category"])
+        with open(dico["universal_ product_code (upc)"] + ".jpg", 'wb') as img:
+            img.write(img_data)
+        os.chdir('..')
+
+    else:
+        os.chdir(dico["category"])
+        with open(dico["universal_ product_code (upc)"] + ".jpg", 'wb') as img:
+            img.write(img_data)
+        os.chdir('..')
+        
     return dico
 def convert_to_csv(dico):
     """[retrieving values ​​from the dictionary in a list before being written to the csv file]
@@ -67,7 +83,7 @@ def save_in_csv(data_converted, dico, file_name):
     """
     key = list(dico.keys())
     key = "; ".join(key)
-    if not path.exists(file_name):
+    if not os.path.exists(file_name):
         with open(file_name, 'w', encoding="utf-8") as file:
             file.write(key + "\n" + data_converted)
     else:

@@ -48,8 +48,7 @@ def pagination(url):
         url_books = url_books + (books_in_category(books))
     return url_books
 
-if __name__ == "__main__":
-    URL_CATEGORY = "http://books.toscrape.com/catalogue/category/books/fiction_10/index.html"
+def main(URL_CATEGORY):
     print("urls search")
     urls = pagination(URL_CATEGORY)
     print("Data transformation in CSV format")
@@ -61,3 +60,5 @@ if __name__ == "__main__":
         FILE_NAME = str(dico["category"]) + '.csv'
         o_book.save_in_csv(CSV, dico, FILE_NAME) # Save data in CSV
     print("Save in " + FILE_NAME)
+if __name__ == "__main__":
+    main("http://books.toscrape.com/catalogue/category/books/fiction_10/index.html")
