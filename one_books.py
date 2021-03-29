@@ -16,7 +16,6 @@ def scrapp_only_book(response):
     Returns:
         [dictionary]: [dictionary containing all the data of the book]
     """
-    print("Data recovery on the site")
     soup = BeautifulSoup(response.text, 'lxml')
     dico = {} # dictionary receiving all the information from the book
     table = soup.article.findAll('tr')
@@ -55,19 +54,17 @@ def convert_to_csv(dico):
     Returns:
         [string]: [data converted into a readable format in CSV]
     """
-    print("Data transformation in CSV format")
     value = list(dico.values())
     value = "; ".join(value)
     value = str(value)
     return value
-def save_in_csv(data_converted, dico, name_file):
+def save_in_csv(data_converted, dico, file_name):
     """[Creating the csv file and writing the data]
 
     Args:
         data_converted ([string]): [data converted into a readable format in CSV]
         dico ([dictionnary]): [allows you to easily retrieve the name of the category]
     """
-    file_name = name_file
     key = list(dico.keys())
     key = "; ".join(key)
     if not path.exists(file_name):
@@ -76,15 +73,17 @@ def save_in_csv(data_converted, dico, name_file):
     else:
         with open(file_name, 'a', encoding="utf-8") as file:
             file.write(data_converted)
-
-    print("Save in " + file_name)
+    
 if __name__ == "__main__":
     """launch function
     """
     url = "http://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
     response = requests.get(url)
     response.encoding = 'utf-8'
+    print("Data recovery on the site")
     dico = scrapp_only_book(response) # data recovery
+    print("Data transformation in CSV format")
     csv = convert_to_csv(dico) # Data transformation
-    name_file = str(dico["title"]) + '.csv'
-    save_in_csv(csv, dico, name_file) # Save data in CSV
+    file_name = str(dico["title"]) + '.csv'
+    print("Save in " + file_name)
+    save_in_csv(csv, dico, file_name) # Save data in CSV
