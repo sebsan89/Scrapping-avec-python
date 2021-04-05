@@ -51,14 +51,14 @@ def pagination(url):
 def main(URL_CATEGORY):
     print("urls search")
     urls = pagination(URL_CATEGORY)
-    print("Data transformation in CSV format")
+    print("Data Extraction on the category")
     for book_url in urls:
         response = requests.get(book_url)
         response.encoding = 'utf-8'
-        dico = o_book.scrapp_only_book(response) # data recovery
-        CSV = o_book.convert_to_csv(dico) + "\n" # Data transformation
-        FILE_NAME = str(dico["category"]) + '.csv'
-        o_book.save_in_csv(CSV, dico, FILE_NAME) # Save data in CSV
-    print("Save in " + FILE_NAME)
+        dico = o_book.scrapp_only_book(response) # data Extraction
+        data_csv = o_book.convert_to_csv(dico) + "\n" # Data transformation
+        name_file = str(dico["category"]) + '.csv'
+        o_book.save_in_csv(data_csv, dico, name_file) # Load data in CSV
+    print("Load data in " + name_file)
 if __name__ == "__main__":
     main("http://books.toscrape.com/catalogue/category/books/fiction_10/index.html")
