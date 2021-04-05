@@ -32,8 +32,11 @@ def scrapp_only_book(response):
     dico["price_including_tax"] = dico_table.get("Price (incl. tax)")
     dico["price_excluding_tax"] = dico_table.get("Price (excl. tax)")
     dico["number_available"] = dico_table.get("Availability")
-    description = soup.article.find('div', {'id': 'product_description'})
-    dico["product_description"] = description.next_sibling.next_sibling.text.replace(';', ',')
+    try:
+        description = soup.article.find('div', {'id': 'product_description'})
+        dico["product_description"] = description.next_sibling.next_sibling.text.replace(';', ',')
+    except AttributeError:
+        dico["product_description"] = ""
     category = soup.find('ul', {'class': 'breadcrumb'}).find('li').next_sibling.next_sibling
     dico["category"] = category.next_sibling.next_sibling.text.replace('\n', '')
 
@@ -96,10 +99,10 @@ if __name__ == "__main__":
     url = "http://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
     response = requests.get(url)
     response.encoding = 'utf-8'
-    print("Data recovery on the site")
-    dico = scrapp_only_book(response) # data recovery
-    print("Data transformation in CSV format")
-    csv = convert_to_csv(dico) # Data transformation
+    print("Data Extraction on the site")
+    dico = scrapp_only_book(response) # data Extraction
+    print("Data Transformation in CSV format")
+    csv = convert_to_csv(dico) # Data Transformation
     file_name = str(dico["title"]) + '.csv'
-    print("Save in " + file_name)
-    save_in_csv(csv, dico, file_name) # Save data in CSV
+    print("Load data in " + file_name)
+    save_in_csv(csv, dico, file_name) # Load data in CSV

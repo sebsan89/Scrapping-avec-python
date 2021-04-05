@@ -26,8 +26,8 @@ def category(url):
     return liste
 
 if __name__ == "__main__":
-    WEBSITE = "http://books.toscrape.com"
-    urls_all_category = category(WEBSITE)
+    url_website = "http://books.toscrape.com"
+    urls_all_category = category(url_website)
 
     for url_category in urls_all_category:
         o_category.main(url_category)
