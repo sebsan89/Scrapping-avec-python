@@ -4,6 +4,7 @@ This code is used to retrieve the data of a book on Booktoscrapp.com
 
 import requests
 from bs4 import BeautifulSoup
+from sys import argv
 import os
 
 
@@ -96,7 +97,7 @@ def save_in_csv(data_converted, dico, file_name):
 if __name__ == "__main__":
     """launch function
     """
-    url = "http://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html"
+    url = argv[1]
     response = requests.get(url)
     response.encoding = 'utf-8'
     print("Data Extraction on the site")

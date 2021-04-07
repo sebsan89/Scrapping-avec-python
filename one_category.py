@@ -3,6 +3,7 @@ This code is used to retrieve the data of all book for one category on Booktoscr
 """
 import requests
 from bs4 import BeautifulSoup
+from sys import argv
 import one_books as o_book
 
 def books_in_category(url_books):
@@ -61,4 +62,4 @@ def main(URL_CATEGORY):
         o_book.save_in_csv(data_csv, dico, name_file) # Load data in CSV
     print("Load data in " + name_file)
 if __name__ == "__main__":
-    main("http://books.toscrape.com/catalogue/category/books/fiction_10/index.html")
+    main(argv[1])

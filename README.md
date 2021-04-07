@@ -40,6 +40,8 @@ Pour Windows :
 Pour Linux :
      ``py3 _fichierQueVousSouhaitez__.py``
 
+Dans tout les cas :
+      pour les fichier ``one_books.py`` et ``one_category.py`` vous devez passer en argument l'URL du livre ou de la categorie qui vous interesse.
 ## Fabriqué avec
 
 Python 3
